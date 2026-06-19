@@ -1,0 +1,69 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'node-app/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'node-app/**'
+
+defaults:
+  run:
+    working-directory: node-app
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: node-app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Run tests with coverage
+        run: npm test -- --ci --forceExit
+
+      - name: Upload coverage report
+        if: matrix.node-version == 20
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: node-app/coverage/
+
+  docker:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t account-management-system:${{ github.sha }} .
+        working-directory: node-app
+
+      - name: Test Docker image
+        run: |
+          docker run --rm account-management-system:${{ github.sha }} node -e "
+            const ops = require('./src/operations');
+            const result = ops.viewBalance();
+            if (result.balance !== 1000) process.exit(1);
+            console.log('Docker smoke test passed');
+          "
