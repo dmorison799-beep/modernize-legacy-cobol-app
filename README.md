@@ -15,14 +15,14 @@ This repo contains COBOL code for a simple accounting system. You can use Devin 
 
 ### Option 1: Use an IDE that supports Devin
 
-- IDE options for both Devin and Copilot Chat:
+- IDE options for both Devin Desktop:
   - <img src="images/ide-vscode.png" alt="Visual Studio Code" width="20"/> Visual Studio Code
   - <img src="images/ide-vs.png" alt="Visual Studio" width="20"/> Visual Studio
   - <img src="images/ide-jetbrains.png" alt="JetBrains IDE" width="20"/> JetBrains IDE
 
 #### For Visual Studio Code
 
-- Install the Devin and Devin Chat extensions for Visual Studio Code.
+- Install the Devin Desktop extensions for Visual Studio Code.
 - Install the COBOL extension for Visual Studio Code.
 
 ### Option 2: Use a GitHub codespace
