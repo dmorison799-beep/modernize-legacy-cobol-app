@@ -1,0 +1,12 @@
+{
+  "name": "cobol-migration-presentation",
+  "version": "1.0.0",
+  "description": "PowerPoint presentation generator for COBOL to Node.js migration",
+  "main": "generate-presentation.js",
+  "scripts": {
+    "build": "node generate-presentation.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  }
+}

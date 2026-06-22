@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  accounting-app:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    container_name: node-accounting-app
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - HEALTH_PORT=3000
+      - INITIAL_BALANCE=${INITIAL_BALANCE:-1000.00}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.5'
