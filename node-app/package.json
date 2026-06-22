@@ -1,0 +1,43 @@
+{
+  "name": "account-management-system",
+  "version": "1.0.0",
+  "description": "Node.js modernization of legacy COBOL accounting system",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "jest --coverage",
+    "test:unit": "jest tests/unit",
+    "test:integration": "jest tests/integration",
+    "lint": "eslint src/ tests/",
+    "lint:fix": "eslint src/ tests/ --fix",
+    "deploy": "bash scripts/deploy.sh",
+    "docker:build": "docker build -t account-management-system .",
+    "docker:run": "docker run -it account-management-system"
+  },
+  "keywords": [
+    "accounting",
+    "cobol-modernization",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "readline-sync": "1.4.10"
+  },
+  "devDependencies": {
+    "eslint": "8.56.0",
+    "jest": "29.7.0",
+    "@eslint/js": "8.56.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ]
+  }
+}
