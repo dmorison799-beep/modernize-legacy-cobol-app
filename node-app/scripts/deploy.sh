@@ -83,9 +83,17 @@ fi
 # ──────────────────────────────────────────────
 # Step 4 — Build Docker image
 # ──────────────────────────────────────────────
+# Map ENVIRONMENT to a standard NODE_ENV value (only 'development' and
+# 'production' are recognized by Node.js libraries like Express).
+if [ "${ENVIRONMENT}" = "development" ]; then
+  NODE_ENV_VALUE="development"
+else
+  NODE_ENV_VALUE="production"
+fi
+
 log "Building Docker image: ${FULL_IMAGE}"
 docker build \
-  --build-arg NODE_ENV="${ENVIRONMENT}" \
+  --build-arg NODE_ENV="${NODE_ENV_VALUE}" \
   --tag "${FULL_IMAGE}" \
   --tag "${LATEST_IMAGE}" \
   "${PROJECT_DIR}"
